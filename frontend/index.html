@@ -13,7 +13,7 @@
       background-size: 24px 24px;
     }
 
-    /* 🔄 CHANGE 1: ADDING SPINNER CSS LOADER */
+    /* CSS Loader for Submit Button */
     .loader {
       border: 3px solid #f3f3f3; /* Light grey */
       border-top: 3px solid #f97316; /* Orange */
@@ -114,7 +114,6 @@
             </div>
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Full Name</label>
-              <!-- 🔄 CHANGE 2: Added 'required' attribute explicitly to input -->
               <input type="text" name="fullName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="John Doe">
             </div>
           </div>
@@ -123,7 +122,6 @@
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Target Subject Focus (Comma separated)</label>
-              <!-- 🔄 CHANGE 2: Added 'required' attribute explicitly to input -->
               <input type="text" id="subjectsInput" name="subjectsText" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="e.g. Mathematics, Calculus">
             </div>
             <div>
@@ -139,18 +137,15 @@
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Email Address</label>
-              <!-- 🔄 CHANGE 2: Added 'required' attribute implicitly -->
               <input type="email" name="email" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="name@domain.com">
             </div>
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Phone Number (10 Digits)</label>
-              <!-- 🔄 CHANGE 2: Upgraded Validation (required, minlength/maxlength, pattern, inputmode) -->
               <input type="tel" id="phoneInput" name="phone" required minlength="10" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="7500119990">
             </div>
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Address / Geographical Region</label>
-              <!-- 🔄 CHANGE 2: Added 'required' attribute implicitly -->
-              <input type="text" name="locationOrAddress" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Dehradun, UK">
+              <input type="text" name="locationOrAddress" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Panditwari, Dehradun">
             </div>
           </div>
 
@@ -163,7 +158,6 @@
           </button>
           <button type="button" id="nextBtn" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-medium shadow-lg shadow-orange-600/20 transition flex items-center">
             <span id="nextBtnText">Next</span>
-            <!-- 🔄 CHANGE 1: ADDING SPINNER SPAN -->
             <span id="submitLoader" class="loader hidden-loader"></span>
           </button>
         </div>
@@ -171,8 +165,39 @@
     </div>
   </main>
 
+  <!-- *** NEW: WHATSAPP DIRECT QUERY QR CODE SECTION *** -->
+  <section class="max-w-7xl mx-auto px-6 py-10 relative z-10 w-full mb-10">
+    <div class="bg-slate-900/80 border border-slate-800 backdrop-blur-md rounded-2xl shadow-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="space-y-4 text-center md:text-left">
+        <div class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.12 16h-1.6v-1.6h1.6V18zm0-3.2h-1.6V7.2h1.6v7.6zm4 3.2h-1.6v-1.6h1.6V18zm0-3.2h-1.6V7.2h1.6v7.6zM2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12z"></path></svg>
+          <span>Instant Support</span>
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
+          Query via <span class="text-emerald-400">WhatsApp</span> Messages
+        </h2>
+        <p class="text-slate-400 text-sm leading-relaxed max-w-md mx-auto md:mx-0">
+          Have a question before enrolling? Scan the QR code with your phone or click the link to connect directly with the Sarv Shreshth support team on WhatsApp. We typically respond within minutes!
+        </p>
+        <div class="pt-2">
+            <a href="https://wa.me/917500119990" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold tracking-tight shadow-lg shadow-emerald-600/20 transition flex items-center space-x-2 inline-flex">
+                <span>Direct WhatsApp Link</span>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"></path></svg>
+            </a>
+        </div>
+      </div>
+      <!-- Visualization Card Reference -->
+      <div class="bg-white p-4 rounded-2xl shadow-inner shadow-black/10 border border-slate-700/50 flex-shrink-0">
+        <img src="https://quickchart.io/qr?text=https%3A%2F%2Fwa.me%2F917500119990&size=300&ecLevel=H&finderColor=f97316&centerImageUrl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F3670%2F3670051.png&centerImageSizeRatio=0.25" 
+     alt="Scan to query Sarv Shreshth on WhatsApp" 
+     class="w-44 h-44 object-contain rounded-xl p-2 bg-white shadow-lg border-2 border-orange-500">
+      </div>
+    </div>
+  </section>
+  <!-- *** END: WHATSAPP DIRECT QUERY SECTION *** -->
+
   <!-- CONTACT FOOTER SECTION -->
-  <footer id="contact" class="w-full bg-slate-950 border-t border-slate-900 mt-12 py-10 relative z-10">
+  <footer id="contact" class="w-full bg-slate-950 border-t border-slate-900 py-10 relative z-10">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
       <div>
         <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Sarv Shreshth Coaching</h4>
@@ -183,7 +208,6 @@
       <div>
         <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Direct Contact Info</h4>
         <ul class="text-xs text-slate-400 space-y-2">
-          <!-- 🔄 CHANGE 3: UPDATED CONTACT DETAILS EXACTLY AS REQUESTED -->
           <li>📧 sscoachingclasses123@gmail.com</li>
           <li>📞 +91 7500119990</li>
           <li>📍 Near Shaheed Dwar, Panditwari, Dehradun, UK</li>
@@ -242,7 +266,7 @@
       });
     });
 
-    // 🔄 CHANGE 2: Added active phone formatting/validation logic in JS
+    // Added active phone formatting/validation logic in JS
     phoneInput.addEventListener('input', (e) => {
         // Remove any non-digit character actively
         e.target.value = e.target.value.replace(/\D/g, '');
@@ -272,7 +296,7 @@
     }
 
     nextBtn.addEventListener('click', async () => {
-      // 🔄 CHANGE 2: UPGRADED RUNTIME VALIDATION LOGIC
+      // UPGRADED RUNTIME VALIDATION LOGIC
       const activeSlideInputs = track.children[currentStep].querySelectorAll('input[required], select[required]');
       let slideValid = true;
       
@@ -324,7 +348,7 @@
       } else {
         // FINAL SUBMIT FLOW
 
-        // 🔄 CHANGE 1: ACTIVATE SPINNER & DISABLE BUTTON
+        // ACTIVATE SPINNER & DISABLE BUTTON
         nextBtnText.textContent = 'Submitting...';
         nextBtn.disabled = true;
         nextBtn.classList.add('opacity-70', 'cursor-not-allowed');
@@ -354,7 +378,7 @@
         } catch (err) {
           alert('Failed to connect to Sarv Shreshth backend server API.');
         } finally {
-            // 🔄 CHANGE 1: DEACTIVATE SPINNER & RESTORE BUTTON STATE
+            // DEACTIVATE SPINNER & RESTORE BUTTON STATE
             nextBtnText.textContent = 'Submit Registration';
             nextBtn.disabled = false;
             nextBtn.classList.remove('opacity-70', 'cursor-not-allowed');
