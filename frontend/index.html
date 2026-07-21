@@ -103,7 +103,7 @@
       <form id="regForm" class="overflow-hidden relative">
         <div id="carouselTrack" class="carousel-track flex w-[300%] text-slate-300">
           
-          <!-- STEP 1 -->
+          <!-- STEP 1: Profile -->
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Account Category</label>
@@ -118,12 +118,38 @@
             </div>
           </div>
 
-          <!-- STEP 2 -->
+          <!-- STEP 2: Classes & Dynamic Subjects -->
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
-              <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Target Subject Focus (Comma separated)</label>
-              <input type="text" id="subjectsInput" name="subjectsText" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="e.g. Mathematics, Calculus">
+              <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Select Class / Grade</label>
+              <select id="classSelect" name="classGrade" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
+                <option value="">-- Choose Class --</option>
+                <option value="1-8">Class 1 to 8 (All Primary Subjects)</option>
+                <option value="9">Class 9</option>
+                <option value="10">Class 10</option>
+                <option value="11">Class 11</option>
+                <option value="12">Class 12</option>
+              </select>
             </div>
+
+            <!-- CONDITIONAL STREAM SELECTOR (Hidden by default, shown for 11th & 12th) -->
+            <div id="streamContainer" class="hidden">
+              <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Select Academic Stream</label>
+              <select id="streamSelect" name="stream" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
+                <option value="">-- Choose Stream --</option>
+                <option value="science">Science Stream</option>
+                <option value="commerce">Commerce Stream</option>
+              </select>
+            </div>
+
+            <!-- DYNAMIC SUBJECT CHECKBOXES CONTAINER -->
+            <div id="subjectsContainer" class="hidden space-y-2">
+              <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400">Target Subjects (Select Combination)</label>
+              <div id="subjectCheckboxes" class="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto p-2 bg-slate-950 border border-slate-800 rounded-xl text-xs">
+                <!-- Dynamic checkboxes injected here via JavaScript -->
+              </div>
+            </div>
+
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Learning Delivery Structure</label>
               <select name="mode" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
@@ -133,7 +159,7 @@
             </div>
           </div>
 
-          <!-- STEP 3 -->
+          <!-- STEP 3: Contact Info -->
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Email Address</label>
@@ -186,15 +212,16 @@
             </a>
         </div>
       </div>
-      <!-- Visualization Card Reference -->
+      <!-- WhatsApp QR Code Integration -->
       <div class="bg-white p-4 rounded-2xl shadow-inner shadow-black/10 border border-slate-700/50 flex-shrink-0">
+        <!-- Using high-res dynamic QR API matching visual requirements -->
         <img src="https://quickchart.io/qr?text=https%3A%2F%2Fwa.me%2F917500119990&size=300&ecLevel=H&finderColor=f97316&centerImageUrl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F3670%2F3670051.png&centerImageSizeRatio=0.25" 
-     alt="Scan to query Sarv Shreshth on WhatsApp" 
-     class="w-44 h-44 object-contain rounded-xl p-2 bg-white shadow-lg border-2 border-orange-500">
+             alt="Scan to query Sarv Shreshth on WhatsApp" 
+             class="w-40 h-40 object-contain rounded-lg shadow-md border-4 border-slate-700">
       </div>
     </div>
   </section>
-  <!-- *** END: WHATSAPP DIRECT QUERY SECTION *** -->
+  <!-- END: WHATSAPP DIRECT QUERY SECTION -->
 
   <!-- CONTACT FOOTER SECTION -->
   <footer id="contact" class="w-full bg-slate-950 border-t border-slate-900 py-10 relative z-10">
@@ -227,14 +254,16 @@
   </footer>
 
   <script>
+    // --- State Variables ---
     let currentStep = 0;
     const totalSteps = 3;
     const stepTitles = [
       "Step 1: Core Profile Selection",
-      "Step 2: Subject & Preferences",
+      "Step 2: Class & Subjects",
       "Step 3: Contact & Delivery Location"
     ];
     
+    // --- UI Element References ---
     const track = document.getElementById('carouselTrack');
     const progressBar = document.getElementById('progressBar');
     const stepTitleDisplay = document.getElementById('stepTitleDisplay');
@@ -245,10 +274,125 @@
     const submitLoader = document.getElementById('submitLoader');
     const form = document.getElementById('regForm');
     const formWrapper = document.getElementById('register');
-    const subjectsInput = document.getElementById('subjectsInput');
+    
+    // Dependent Dropdown Element References
+    const classSelect = document.getElementById('classSelect');
+    const streamContainer = document.getElementById('streamContainer');
+    const streamSelect = document.getElementById('streamSelect');
+    const subjectsContainer = document.getElementById('subjectsContainer');
+    const subjectCheckboxes = document.getElementById('subjectCheckboxes');
     const phoneInput = document.getElementById('phoneInput');
 
-    // Smooth scroll configuration
+    // --- Configuration Data ---
+    const backendUrl = 'https://tutor-platform-yucz.onrender.com/api/register';
+    
+    // Dynamic Subject Combinations Mapping
+    const subjectData = {
+      "9-10": ["Maths", "Science", "Social Studies", "Computer", "English"],
+      "science": ["Maths", "Physics", "Chemistry", "Biology", "Computer"],
+      "commerce": ["Economics", "Accounts", "Business Studies"]
+    };
+
+    // ==========================================================
+    // --- 1. Dropdown & Subject Logic Handler ---
+    // ==========================================================
+    
+    // Listen to Class Selection Changes
+    classSelect.addEventListener('change', () => {
+      const selectedClass = classSelect.value;
+      subjectCheckboxes.innerHTML = ''; // Clear previous subjects
+      
+      // Clear red rings briefly if they change selection
+      classSelect.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+      subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+
+      if (selectedClass === '1-8') {
+        streamContainer.classList.add('hidden');
+        streamSelect.required = false;
+        streamSelect.value = ''; // Reset stream value
+        subjectsContainer.classList.remove('hidden');
+        
+        // Auto-select "All Primary Subjects" - required hidden input ensures value passes
+        subjectCheckboxes.innerHTML = `
+          <label class="flex items-center space-x-2 text-slate-300">
+            <input type="checkbox" name="subjects" value="All Primary Subjects" checked class="rounded border-slate-700 text-orange-500 focus:ring-orange-500">
+            <span>All Primary Subjects</span>
+          </label>
+          <input type="hidden" name="stream" value="N/A"> <!-- Optional stream field -->
+        `;
+      } else if (selectedClass === '9' || selectedClass === '10') {
+        streamContainer.classList.add('hidden');
+        streamSelect.required = false;
+        streamSelect.value = ''; // Reset stream value
+        subjectsContainer.classList.remove('hidden');
+        
+        populateCheckboxes(subjectData["9-10"]);
+        // Optional stream field as N/A
+        const hiddenStream = document.createElement('input');
+        hiddenStream.type = 'hidden'; hiddenStream.name = 'stream'; hiddenStream.value = 'N/A';
+        subjectCheckboxes.appendChild(hiddenStream);
+      } else if (selectedClass === '11' || selectedClass === '12') {
+        streamContainer.classList.remove('hidden');
+        streamSelect.required = true;
+        subjectsContainer.classList.add('hidden'); // Wait until stream is explicitly selected
+      } else {
+        // No class chosen (-- Choose Class --)
+        streamContainer.classList.add('hidden');
+        subjectsContainer.classList.add('hidden');
+      }
+    });
+
+    // Listen to Stream Changes (Conditional for 11th & 12th)
+    streamSelect.addEventListener('change', () => {
+      const selectedStream = streamSelect.value;
+      subjectCheckboxes.innerHTML = '';
+      
+      // Clear red rings on stream selector briefly if they change selection
+      streamSelect.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+      subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+
+      if (selectedStream && subjectData[selectedStream]) {
+        subjectsContainer.classList.remove('hidden');
+        populateCheckboxes(subjectData[selectedStream]);
+      } else {
+        subjectsContainer.classList.add('hidden');
+      }
+    });
+
+    // Helper function to create subject checkboxes grid
+    function populateCheckboxes(subjects) {
+      subjects.forEach(subject => {
+        const label = document.createElement('label');
+        label.className = 'flex items-center space-x-2 text-slate-300 hover:text-white cursor-pointer';
+        label.innerHTML = `
+          <input type="checkbox" name="subjects" value="${subject}" class="rounded border-slate-700 text-orange-500 focus:ring-orange-500">
+          <span>${subject}</span>
+        `;
+        subjectCheckboxes.appendChild(label);
+      });
+    }
+
+    // ==========================================================
+    // --- 2. Input Validation Logic (Phone/Subjects) ---
+    // ==========================================================
+
+    // Active phone formatting & validation logic
+    phoneInput.addEventListener('input', (e) => {
+        // Remove any non-digit character actively
+        e.target.value = e.target.value.replace(/\D/g, '');
+        // Force max length fallback just in case browser skips pattern/maxlength
+        if (e.target.value.length > 10) {
+            e.target.value = e.target.value.slice(0, 10);
+        }
+        // Clear validity on input change
+        if (phoneInput.checkValidity()) phoneInput.setCustomValidity(""); 
+    });
+
+    // ==========================================================
+    // --- 3. Carousel Navigation & Form Submission ---
+    // ==========================================================
+
+    // Smooth scroll configuration for anchors (#)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -266,16 +410,7 @@
       });
     });
 
-    // Added active phone formatting/validation logic in JS
-    phoneInput.addEventListener('input', (e) => {
-        // Remove any non-digit character actively
-        e.target.value = e.target.value.replace(/\D/g, '');
-        // Force max length again just in case (browser fallback)
-        if (e.target.value.length > 10) {
-            e.target.value = e.target.value.slice(0, 10);
-        }
-    });
-
+    // Navigation logic and UI updates
     function updateCarousel() {
       track.style.transform = `translateX(-${currentStep * 33.33}%)`;
       progressBar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
@@ -295,19 +430,29 @@
       }
     }
 
+    // Prev Button Handler
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        updateCarousel();
+      }
+    });
+
+    // Next/Submit Button Handler (Main Logic)
     nextBtn.addEventListener('click', async () => {
-      // UPGRADED RUNTIME VALIDATION LOGIC
-      const activeSlideInputs = track.children[currentStep].querySelectorAll('input[required], select[required]');
+      
+      // I. RUNTIME SLIDE VALIDATION (Upgraded Logic)
+      const activeSlide = track.children[currentStep];
+      const requiredInputs = activeSlide.querySelectorAll('input[required], select[required]');
       let slideValid = true;
       
-      activeSlideInputs.forEach(input => {
-        // Standard HTML5 validity check (handles 'required', min/max, patterns)
+      // Standard Validity Check
+      requiredInputs.forEach(input => {
         if (!input.checkValidity()) {
-          // Highlight the input in red briefly
+          // Highlight the input in red briefly on native tooltips fail
           input.classList.add('ring-2', 'ring-red-500', 'border-red-500');
-          input.reportValidity(); // Shows native browser error tooltip
+          input.reportValidity(); // Shows native browser tooltip
           slideValid = false;
-          
           // Remove highlight after 2 seconds
           setTimeout(() => input.classList.remove('ring-2', 'ring-red-500', 'border-red-500'), 2000);
         } else {
@@ -315,85 +460,86 @@
         }
       });
 
-      // Special Check for Phone Slide (Step 3)
-      if (currentStep === 2 && slideValid) {
-          if (phoneInput.value.length !== 10) {
-              phoneInput.setCustomValidity("Please enter a valid 10-digit Indian phone number.");
-              phoneInput.reportValidity();
-              phoneInput.classList.add('ring-2', 'ring-red-500', 'border-red-500');
-              slideValid = false;
-          } else {
-              phoneInput.setCustomValidity(""); // Clear custom error
-          }
-      }
-
-      // Special Check for Subjects Slide (Step 2)
+      // Special Check for Slide 2: DYNAMIC SUBJECT CHECKBOXES (Crucial)
       if (currentStep === 1 && slideValid) {
-          if (subjectsInput.value.trim().length < 2) {
-              subjectsInput.setCustomValidity("Please enter at least one subject (e.g. Math, Physics).");
-              subjectsInput.reportValidity();
-              subjectsInput.classList.add('ring-2', 'ring-red-500', 'border-red-500');
+          const checkboxes = subjectCheckboxes.querySelectorAll('input[type="checkbox"][name="subjects"]');
+          let atLeastOneChecked = false;
+          
+          checkboxes.forEach(cb => { if (cb.checked) atLeastOneChecked = true; });
+
+          if (!atLeastOneChecked && !subjectsContainer.classList.contains('hidden')) {
+              // Shake the subject container and highlight it red
+              subjectsContainer.classList.add('ring-2', 'ring-red-500', 'border-red-500', 'animate-pulse');
+              alert("Please select at least one combination subject.");
               slideValid = false;
+              
+              // Remove highlight briefly
+              setTimeout(() => subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500', 'animate-pulse'), 2500);
           } else {
-              subjectsInput.setCustomValidity("");
+              subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
           }
       }
 
-      if (!slideValid) return; // Prevent navigation if current slide is invalid
+      // Final Check before navigation/submission
+      if (!slideValid) return; // Prevent proceeding
 
-      // Handle Slide Navigation vs Submission
+      // II. ACTIVATE NAVIGATION or SUBMISSION FLOW
       if (currentStep < totalSteps - 1) {
         currentStep++;
         updateCarousel();
       } else {
-        // FINAL SUBMIT FLOW
+        // --- FINAL SUBMIT FLOW ---
 
-        // ACTIVATE SPINNER & DISABLE BUTTON
+        // A. ACTIVATE SPINNER UI & DISABLE BUTTON
         nextBtnText.textContent = 'Submitting...';
         nextBtn.disabled = true;
         nextBtn.classList.add('opacity-70', 'cursor-not-allowed');
         submitLoader.classList.remove('hidden-loader');
         
+        // B. GATHER DATA
         const formData = new FormData(form);
         const jsonPayload = Object.fromEntries(formData.entries());
-        // Clean up subjects array input from the text field
-        jsonPayload.subjects = subjectsInput.value.split(',').map(s => s.trim()).filter(s => s.length > 1);
+        
+        // Handle Subjects multi-select checkbox values properly
+        jsonPayload.subjects = [];
+        const checkedSubjects = subjectCheckboxes.querySelectorAll('input[type="checkbox"][name="subjects"]:checked');
+        checkedSubjects.forEach(cb => jsonPayload.subjects.push(cb.value));
 
+        // C. EXECUTE POST REQUEST
         try {
-          // *** YOUR RENDER BACKEND URL ***
-          const response = await fetch('https://tutor-platform-yucz.onrender.com/api/register', {
+          const response = await fetch(backendUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(jsonPayload)
           });
           const result = await response.json();
           if (result.success) {
-            alert('Awesome! Sarv Shreshth account registered successfully.');
+            alert('Awesome! Account registered successfully.');
             form.reset();
             currentStep = 0;
+            // Restore Step 2 dependent UI state
+            streamContainer.classList.add('hidden');
+            subjectsContainer.classList.add('hidden');
             updateCarousel();
           } else {
             alert('Database Error: ' + result.error);
           }
         } catch (err) {
-          alert('Failed to connect to Sarv Shreshth backend server API.');
+          alert('Failed to connect to backend engine server API.');
         } finally {
-            // DEACTIVATE SPINNER & RESTORE BUTTON STATE
+            // D. DEACTIVATE SPINNER & RESTORE BUTTON STATE
             nextBtnText.textContent = 'Submit Registration';
             nextBtn.disabled = false;
             nextBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-            nextBtn.classList.replace('bg-orange-600', 'bg-emerald-600'); // Restore color
+            // If submission failed, ensure color remains emerald
+            if (currentStep === totalSteps - 1) {
+                 nextBtn.classList.replace('bg-orange-600', 'bg-emerald-600'); 
+            }
             submitLoader.classList.add('hidden-loader');
         }
       }
     });
 
-    prevBtn.addEventListener('click', () => {
-      if (currentStep > 0) {
-        currentStep--;
-        updateCarousel();
-      }
-    });
   </script>
 </body>
 </html>
