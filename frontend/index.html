@@ -251,7 +251,7 @@
         jsonPayload.subjects = document.getElementById('subjectsInput').value.split(',').map(s => s.trim());
 
         try {
-          const response = await fetch('https://tutor-platform-yucz.onrender.com', {
+            const response = await fetch('https://tutor-platform-yucz.onrender.com/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(jsonPayload)
