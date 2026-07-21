@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connects to your local MongoDB database
-mongoose.connect('mongodb://localhost:27017/tutorPlatform')
+mongoose.connect('mongodb+srv://mohit31025_db_user:RKi4jcdzV0O8Sgfo@sarvshresthcc.jsmcfx5.mongodb.net/?appName=SarvShresthCC')
   .then(() => console.log('✅ MongoDB connected successfully!'))
   .catch(err => console.error('❌ Database connection error:', err));
 
