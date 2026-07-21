@@ -12,6 +12,25 @@
       background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 0);
       background-size: 24px 24px;
     }
+
+    /* 🔄 CHANGE 1: ADDING SPINNER CSS LOADER */
+    .loader {
+      border: 3px solid #f3f3f3; /* Light grey */
+      border-top: 3px solid #f97316; /* Orange */
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Hide spinner by default */
+    .hidden-loader { display: none; }
   </style>
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-gray-100 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
@@ -88,13 +107,14 @@
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Account Category</label>
-              <select name="role" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
+              <select name="role" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
                 <option value="student">Student (Looking for a Teacher)</option>
                 <option value="teacher">Teacher (Looking to Teach)</option>
               </select>
             </div>
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Full Name</label>
+              <!-- 🔄 CHANGE 2: Added 'required' attribute explicitly to input -->
               <input type="text" name="fullName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="John Doe">
             </div>
           </div>
@@ -103,11 +123,12 @@
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Target Subject Focus (Comma separated)</label>
-              <input type="text" id="subjectsInput" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="e.g. Mathematics, Calculus">
+              <!-- 🔄 CHANGE 2: Added 'required' attribute explicitly to input -->
+              <input type="text" id="subjectsInput" name="subjectsText" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="e.g. Mathematics, Calculus">
             </div>
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Learning Delivery Structure</label>
-              <select name="mode" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
+              <select name="mode" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
                 <option value="home_tutor">Home Tutor (Personalized Visit)</option>
                 <option value="coaching_class">Coaching Class (Study Hub Campus)</option>
               </select>
@@ -118,15 +139,18 @@
           <div class="w-1/3 p-6 flex-shrink-0 space-y-4">
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Email Address</label>
+              <!-- 🔄 CHANGE 2: Added 'required' attribute implicitly -->
               <input type="email" name="email" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="name@domain.com">
             </div>
             <div>
-              <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Phone Number</label>
-              <input type="tel" name="phone" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="1234567890">
+              <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Phone Number (10 Digits)</label>
+              <!-- 🔄 CHANGE 2: Upgraded Validation (required, minlength/maxlength, pattern, inputmode) -->
+              <input type="tel" id="phoneInput" name="phone" required minlength="10" maxlength="10" pattern="[0-9]{10}" inputmode="numeric" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="7500119990">
             </div>
             <div>
               <label class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-1">Address / Geographical Region</label>
-              <input type="text" name="locationOrAddress" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="City, State">
+              <!-- 🔄 CHANGE 2: Added 'required' attribute implicitly -->
+              <input type="text" name="locationOrAddress" required class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Dehradun, UK">
             </div>
           </div>
 
@@ -137,8 +161,10 @@
           <button type="button" id="prevBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium disabled:opacity-30 disabled:pointer-events-none transition" disabled>
             Back
           </button>
-          <button type="button" id="nextBtn" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-medium shadow-lg shadow-orange-600/20 transition">
-            Next
+          <button type="button" id="nextBtn" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-medium shadow-lg shadow-orange-600/20 transition flex items-center">
+            <span id="nextBtnText">Next</span>
+            <!-- 🔄 CHANGE 1: ADDING SPINNER SPAN -->
+            <span id="submitLoader" class="loader hidden-loader"></span>
           </button>
         </div>
       </form>
@@ -151,22 +177,23 @@
       <div>
         <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Sarv Shreshth Coaching</h4>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Connecting specialized mentors with aspiring scholars across flexible locations and environments.
+          Connecting specialized mentors with aspiring scholars across flexible locations and environments in Dehradun.
         </p>
       </div>
       <div>
         <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Direct Contact Info</h4>
         <ul class="text-xs text-slate-400 space-y-2">
-          <li>📧 support@sarvshreshth.com</li>
-          <li>📞 +91 98765 43210</li>
-          <li>📍 100 Learning Plaza, Suite 400</li>
+          <!-- 🔄 CHANGE 3: UPDATED CONTACT DETAILS EXACTLY AS REQUESTED -->
+          <li>📧 sscoachingclasses123@gmail.com</li>
+          <li>📞 +91 7500119990</li>
+          <li>📍 Near Shaheed Dwar, Panditwari, Dehradun, UK</li>
         </ul>
       </div>
       <div>
         <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Operational Support Hours</h4>
         <p class="text-xs text-slate-400 leading-relaxed">
-          Monday – Friday: 9:00 AM – 6:00 PM<br>
-          Weekend Emergencies: 10:00 AM – 2:00 PM
+          Monday – Saturday: 9:00 AM – 6:00 PM<br>
+          Weekend Queries (WhatsApp Only): 10:00 AM – 2:00 PM
         </p>
       </div>
     </div>
@@ -190,8 +217,12 @@
     const stepProgressText = document.getElementById('stepProgressText');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const nextBtnText = document.getElementById('nextBtnText');
+    const submitLoader = document.getElementById('submitLoader');
     const form = document.getElementById('regForm');
     const formWrapper = document.getElementById('register');
+    const subjectsInput = document.getElementById('subjectsInput');
+    const phoneInput = document.getElementById('phoneInput');
 
     // Smooth scroll configuration
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -211,6 +242,16 @@
       });
     });
 
+    // 🔄 CHANGE 2: Added active phone formatting/validation logic in JS
+    phoneInput.addEventListener('input', (e) => {
+        // Remove any non-digit character actively
+        e.target.value = e.target.value.replace(/\D/g, '');
+        // Force max length again just in case (browser fallback)
+        if (e.target.value.length > 10) {
+            e.target.value = e.target.value.slice(0, 10);
+        }
+    });
+
     function updateCarousel() {
       track.style.transform = `translateX(-${currentStep * 33.33}%)`;
       progressBar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
@@ -220,53 +261,105 @@
 
       prevBtn.disabled = currentStep === 0;
       if (currentStep === totalSteps - 1) {
-        nextBtn.textContent = 'Submit Registration';
+        nextBtnText.textContent = 'Submit Registration';
         nextBtn.classList.replace('bg-orange-600', 'bg-emerald-600');
         nextBtn.classList.replace('hover:bg-orange-500', 'hover:bg-emerald-500');
       } else {
-        nextBtn.textContent = 'Next';
+        nextBtnText.textContent = 'Next';
         nextBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
         nextBtn.classList.add('bg-orange-600', 'hover:bg-orange-500');
       }
     }
 
     nextBtn.addEventListener('click', async () => {
-      const activeSlideInputs = track.children[currentStep].querySelectorAll('input, select');
-      let valid = true;
+      // 🔄 CHANGE 2: UPGRADED RUNTIME VALIDATION LOGIC
+      const activeSlideInputs = track.children[currentStep].querySelectorAll('input[required], select[required]');
+      let slideValid = true;
+      
       activeSlideInputs.forEach(input => {
+        // Standard HTML5 validity check (handles 'required', min/max, patterns)
         if (!input.checkValidity()) {
-          input.reportValidity();
-          valid = false;
+          // Highlight the input in red briefly
+          input.classList.add('ring-2', 'ring-red-500', 'border-red-500');
+          input.reportValidity(); // Shows native browser error tooltip
+          slideValid = false;
+          
+          // Remove highlight after 2 seconds
+          setTimeout(() => input.classList.remove('ring-2', 'ring-red-500', 'border-red-500'), 2000);
+        } else {
+            input.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
         }
       });
 
-      if (!valid) return;
+      // Special Check for Phone Slide (Step 3)
+      if (currentStep === 2 && slideValid) {
+          if (phoneInput.value.length !== 10) {
+              phoneInput.setCustomValidity("Please enter a valid 10-digit Indian phone number.");
+              phoneInput.reportValidity();
+              phoneInput.classList.add('ring-2', 'ring-red-500', 'border-red-500');
+              slideValid = false;
+          } else {
+              phoneInput.setCustomValidity(""); // Clear custom error
+          }
+      }
 
+      // Special Check for Subjects Slide (Step 2)
+      if (currentStep === 1 && slideValid) {
+          if (subjectsInput.value.trim().length < 2) {
+              subjectsInput.setCustomValidity("Please enter at least one subject (e.g. Math, Physics).");
+              subjectsInput.reportValidity();
+              subjectsInput.classList.add('ring-2', 'ring-red-500', 'border-red-500');
+              slideValid = false;
+          } else {
+              subjectsInput.setCustomValidity("");
+          }
+      }
+
+      if (!slideValid) return; // Prevent navigation if current slide is invalid
+
+      // Handle Slide Navigation vs Submission
       if (currentStep < totalSteps - 1) {
         currentStep++;
         updateCarousel();
       } else {
+        // FINAL SUBMIT FLOW
+
+        // 🔄 CHANGE 1: ACTIVATE SPINNER & DISABLE BUTTON
+        nextBtnText.textContent = 'Submitting...';
+        nextBtn.disabled = true;
+        nextBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        submitLoader.classList.remove('hidden-loader');
+        
         const formData = new FormData(form);
         const jsonPayload = Object.fromEntries(formData.entries());
-        jsonPayload.subjects = document.getElementById('subjectsInput').value.split(',').map(s => s.trim());
+        // Clean up subjects array input from the text field
+        jsonPayload.subjects = subjectsInput.value.split(',').map(s => s.trim()).filter(s => s.length > 1);
 
         try {
-            const response = await fetch('https://tutor-platform-yucz.onrender.com/api/register', {
+          // *** YOUR RENDER BACKEND URL ***
+          const response = await fetch('https://tutor-platform-yucz.onrender.com/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(jsonPayload)
           });
           const result = await response.json();
           if (result.success) {
-            alert('Awesome! Account registered successfully.');
+            alert('Awesome! Sarv Shreshth account registered successfully.');
             form.reset();
             currentStep = 0;
             updateCarousel();
           } else {
-            alert('Error: ' + result.error);
+            alert('Database Error: ' + result.error);
           }
         } catch (err) {
-          alert('Failed to connect to backend engine server API.');
+          alert('Failed to connect to Sarv Shreshth backend server API.');
+        } finally {
+            // 🔄 CHANGE 1: DEACTIVATE SPINNER & RESTORE BUTTON STATE
+            nextBtnText.textContent = 'Submit Registration';
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            nextBtn.classList.replace('bg-orange-600', 'bg-emerald-600'); // Restore color
+            submitLoader.classList.add('hidden-loader');
         }
       }
     });
