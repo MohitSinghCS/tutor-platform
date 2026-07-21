@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connects to your local MongoDB database
-mongoose.connect('mongodb+srv://mohit31025_db_user:RKi4jcdzV0O8Sgfo@sarvshresthcc.jsmcfx5.mongodb.net/?appName=SarvShresthCC')
+mongoose.connect('mongodb+srv://mohit31025_db_user:RKi4jcdzV0O8Sgfo@sarvshresthcc.jsmcfx5.mongodb.net/tutorPlatform?appName=SarvShresthCC')
   .then(() => console.log('✅ MongoDB connected successfully!'))
   .catch(err => console.error('❌ Database connection error:', err));
 
@@ -33,4 +33,5 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('🚀 Server running on http://localhost:5000'));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
