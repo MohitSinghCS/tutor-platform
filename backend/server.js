@@ -30,7 +30,7 @@ app.post('/api/register', async (req, res) => {
     try {
       await resend.emails.send({
         from: 'Sarv Shreshth Alerts <onboarding@resend.dev>', // Free tier default verified domain
-        to: 'sscoachingclasses123@gmail.com', // Your target inbox
+        to: 'mohit31025@gmail.com', // Your target inbox
         subject: `🚨 New ${req.body.role ? req.body.role.toUpperCase() : 'USER'} Registration: ${req.body.fullName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
