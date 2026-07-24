@@ -89,7 +89,7 @@
     <div id="register" class="lg:col-span-6 bg-slate-900/80 border border-slate-800 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden max-w-xl w-full mx-auto">
       
       <!-- Progress Bar Banner Header -->
-      <div class="p-6 bg-slate-950 border-b border-slate-800">
+      <div id="formHeader" class="p-6 bg-slate-950 border-b border-slate-800">
         <div class="flex justify-between text-xs font-semibold text-slate-400 mb-2">
           <span id="stepTitleDisplay">Step 1: Core Profile Selection</span>
           <span id="stepProgressText">1 of 3</span>
@@ -178,7 +178,7 @@
         </div>
 
         <!-- Footer Control Navigation Row -->
-        <div class="p-6 bg-slate-950/60 border-t border-slate-800/80 flex justify-between items-center">
+        <div id="formFooter" class="p-6 bg-slate-950/60 border-t border-slate-800/80 flex justify-between items-center">
           <button type="button" id="prevBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium disabled:opacity-30 disabled:pointer-events-none transition" disabled>
             Back
           </button>
@@ -188,10 +188,33 @@
           </button>
         </div>
       </form>
+
+      <!-- SUCCESS / WHATSAPP CTA STATE VIEW (Hidden initially) -->
+      <div id="successView" class="hidden p-8 text-center space-y-6">
+        <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl">
+          ✓
+        </div>
+        
+        <div class="space-y-2">
+          <h3 id="successTitle" class="text-2xl font-bold text-white">Application Received!</h3>
+          <p id="successMessage" class="text-slate-400 text-sm leading-relaxed max-w-md mx-auto">
+            Click below to send your Resume/CV directly to our HR team on WhatsApp.
+          </p>
+        </div>
+
+        <!-- Dynamic WhatsApp Link for Tutors -->
+        <div id="whatsappContainer" class="pt-2">
+          <a id="whatsappBtn" href="#" target="_blank" class="w-full py-3 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center justify-center space-x-2">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Send Resume on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </main>
 
-  <!-- *** NEW: WHATSAPP DIRECT QUERY QR CODE SECTION *** -->
+  <!-- *** WHATSAPP DIRECT QUERY QR CODE SECTION *** -->
   <section class="max-w-7xl mx-auto px-6 py-10 relative z-10 w-full mb-10">
     <div class="bg-slate-900/80 border border-slate-800 backdrop-blur-md rounded-2xl shadow-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-8">
       <div class="space-y-4 text-center md:text-left">
@@ -214,14 +237,12 @@
       </div>
       <!-- WhatsApp QR Code Integration -->
       <div class="bg-white p-4 rounded-2xl shadow-inner shadow-black/10 border border-slate-700/50 flex-shrink-0">
-        <!-- Using high-res dynamic QR API matching visual requirements -->
         <img src="https://quickchart.io/qr?text=https%3A%2F%2Fwa.me%2F917500119990&size=300&ecLevel=H&finderColor=f97316&centerImageUrl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F3670%2F3670051.png&centerImageSizeRatio=0.25" 
              alt="Scan to query Sarv Shreshth on WhatsApp" 
              class="w-40 h-40 object-contain rounded-lg shadow-md border-4 border-slate-700">
       </div>
     </div>
   </section>
-  <!-- END: WHATSAPP DIRECT QUERY SECTION -->
 
   <!-- CONTACT FOOTER SECTION -->
   <footer id="contact" class="w-full bg-slate-950 border-t border-slate-900 py-10 relative z-10">
@@ -274,6 +295,15 @@
     const submitLoader = document.getElementById('submitLoader');
     const form = document.getElementById('regForm');
     const formWrapper = document.getElementById('register');
+    const formHeader = document.getElementById('formHeader');
+    const formFooter = document.getElementById('formFooter');
+    
+    // Success State Elements
+    const successView = document.getElementById('successView');
+    const successTitle = document.getElementById('successTitle');
+    const successMessage = document.getElementById('successMessage');
+    const whatsappContainer = document.getElementById('whatsappContainer');
+    const whatsappBtn = document.getElementById('whatsappBtn');
     
     // Dependent Dropdown Element References
     const classSelect = document.getElementById('classSelect');
@@ -285,6 +315,7 @@
 
     // --- Configuration Data ---
     const backendUrl = 'https://tutor-platform-yucz.onrender.com/api/register';
+    const HR_WHATSAPP_NUMBER = '918439759767'; // HR Contact Number
     
     // Dynamic Subject Combinations Mapping
     const subjectData = {
@@ -293,61 +324,52 @@
       "commerce": ["Economics", "Accounts", "Business Studies"]
     };
 
-    // ==========================================================
-    // --- 1. Dropdown & Subject Logic Handler ---
-    // ==========================================================
-    
     // Listen to Class Selection Changes
     classSelect.addEventListener('change', () => {
       const selectedClass = classSelect.value;
-      subjectCheckboxes.innerHTML = ''; // Clear previous subjects
+      subjectCheckboxes.innerHTML = '';
       
-      // Clear red rings briefly if they change selection
       classSelect.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
       subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
 
       if (selectedClass === '1-8') {
         streamContainer.classList.add('hidden');
         streamSelect.required = false;
-        streamSelect.value = ''; // Reset stream value
+        streamSelect.value = '';
         subjectsContainer.classList.remove('hidden');
         
-        // Auto-select "All Primary Subjects" - required hidden input ensures value passes
         subjectCheckboxes.innerHTML = `
           <label class="flex items-center space-x-2 text-slate-300">
             <input type="checkbox" name="subjects" value="All Primary Subjects" checked class="rounded border-slate-700 text-orange-500 focus:ring-orange-500">
             <span>All Primary Subjects</span>
           </label>
-          <input type="hidden" name="stream" value="N/A"> <!-- Optional stream field -->
+          <input type="hidden" name="stream" value="N/A">
         `;
       } else if (selectedClass === '9' || selectedClass === '10') {
         streamContainer.classList.add('hidden');
         streamSelect.required = false;
-        streamSelect.value = ''; // Reset stream value
+        streamSelect.value = '';
         subjectsContainer.classList.remove('hidden');
         
         populateCheckboxes(subjectData["9-10"]);
-        // Optional stream field as N/A
         const hiddenStream = document.createElement('input');
         hiddenStream.type = 'hidden'; hiddenStream.name = 'stream'; hiddenStream.value = 'N/A';
         subjectCheckboxes.appendChild(hiddenStream);
       } else if (selectedClass === '11' || selectedClass === '12') {
         streamContainer.classList.remove('hidden');
         streamSelect.required = true;
-        subjectsContainer.classList.add('hidden'); // Wait until stream is explicitly selected
+        subjectsContainer.classList.add('hidden');
       } else {
-        // No class chosen (-- Choose Class --)
         streamContainer.classList.add('hidden');
         subjectsContainer.classList.add('hidden');
       }
     });
 
-    // Listen to Stream Changes (Conditional for 11th & 12th)
+    // Listen to Stream Changes
     streamSelect.addEventListener('change', () => {
       const selectedStream = streamSelect.value;
       subjectCheckboxes.innerHTML = '';
       
-      // Clear red rings on stream selector briefly if they change selection
       streamSelect.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
       subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
 
@@ -359,7 +381,6 @@
       }
     });
 
-    // Helper function to create subject checkboxes grid
     function populateCheckboxes(subjects) {
       subjects.forEach(subject => {
         const label = document.createElement('label');
@@ -372,27 +393,16 @@
       });
     }
 
-    // ==========================================================
-    // --- 2. Input Validation Logic (Phone/Subjects) ---
-    // ==========================================================
-
-    // Active phone formatting & validation logic
+    // Phone input formatting
     phoneInput.addEventListener('input', (e) => {
-        // Remove any non-digit character actively
         e.target.value = e.target.value.replace(/\D/g, '');
-        // Force max length fallback just in case browser skips pattern/maxlength
         if (e.target.value.length > 10) {
             e.target.value = e.target.value.slice(0, 10);
         }
-        // Clear validity on input change
         if (phoneInput.checkValidity()) phoneInput.setCustomValidity(""); 
     });
 
-    // ==========================================================
-    // --- 3. Carousel Navigation & Form Submission ---
-    // ==========================================================
-
-    // Smooth scroll configuration for anchors (#)
+    // Smooth scroll configuration
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -410,7 +420,6 @@
       });
     });
 
-    // Navigation logic and UI updates
     function updateCarousel() {
       track.style.transform = `translateX(-${currentStep * 33.33}%)`;
       progressBar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
@@ -430,7 +439,6 @@
       }
     }
 
-    // Prev Button Handler
     prevBtn.addEventListener('click', () => {
       if (currentStep > 0) {
         currentStep--;
@@ -438,29 +446,23 @@
       }
     });
 
-    // Next/Submit Button Handler (Main Logic)
+    // Next/Submit Button Handler
     nextBtn.addEventListener('click', async () => {
-      
-      // I. RUNTIME SLIDE VALIDATION (Upgraded Logic)
       const activeSlide = track.children[currentStep];
       const requiredInputs = activeSlide.querySelectorAll('input[required], select[required]');
       let slideValid = true;
       
-      // Standard Validity Check
       requiredInputs.forEach(input => {
         if (!input.checkValidity()) {
-          // Highlight the input in red briefly on native tooltips fail
           input.classList.add('ring-2', 'ring-red-500', 'border-red-500');
-          input.reportValidity(); // Shows native browser tooltip
+          input.reportValidity();
           slideValid = false;
-          // Remove highlight after 2 seconds
           setTimeout(() => input.classList.remove('ring-2', 'ring-red-500', 'border-red-500'), 2000);
         } else {
             input.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
         }
       });
 
-      // Special Check for Slide 2: DYNAMIC SUBJECT CHECKBOXES (Crucial)
       if (currentStep === 1 && slideValid) {
           const checkboxes = subjectCheckboxes.querySelectorAll('input[type="checkbox"][name="subjects"]');
           let atLeastOneChecked = false;
@@ -468,44 +470,34 @@
           checkboxes.forEach(cb => { if (cb.checked) atLeastOneChecked = true; });
 
           if (!atLeastOneChecked && !subjectsContainer.classList.contains('hidden')) {
-              // Shake the subject container and highlight it red
               subjectsContainer.classList.add('ring-2', 'ring-red-500', 'border-red-500', 'animate-pulse');
               alert("Please select at least one combination subject.");
               slideValid = false;
-              
-              // Remove highlight briefly
               setTimeout(() => subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500', 'animate-pulse'), 2500);
           } else {
               subjectsContainer.classList.remove('ring-2', 'ring-red-500', 'border-red-500');
           }
       }
 
-      // Final Check before navigation/submission
-      if (!slideValid) return; // Prevent proceeding
+      if (!slideValid) return;
 
-      // II. ACTIVATE NAVIGATION or SUBMISSION FLOW
       if (currentStep < totalSteps - 1) {
         currentStep++;
         updateCarousel();
       } else {
-        // --- FINAL SUBMIT FLOW ---
-
-        // A. ACTIVATE SPINNER UI & DISABLE BUTTON
+        // --- SUBMIT FLOW ---
         nextBtnText.textContent = 'Submitting...';
         nextBtn.disabled = true;
         nextBtn.classList.add('opacity-70', 'cursor-not-allowed');
         submitLoader.classList.remove('hidden-loader');
         
-        // B. GATHER DATA
         const formData = new FormData(form);
         const jsonPayload = Object.fromEntries(formData.entries());
         
-        // Handle Subjects multi-select checkbox values properly
         jsonPayload.subjects = [];
         const checkedSubjects = subjectCheckboxes.querySelectorAll('input[type="checkbox"][name="subjects"]:checked');
         checkedSubjects.forEach(cb => jsonPayload.subjects.push(cb.value));
 
-        // C. EXECUTE POST REQUEST
         try {
           const response = await fetch(backendUrl, {
             method: 'POST',
@@ -514,27 +506,40 @@
           });
           const result = await response.json();
           if (result.success) {
-            alert('Awesome! Account registered successfully.');
-            form.reset();
-            currentStep = 0;
-            // Restore Step 2 dependent UI state
-            streamContainer.classList.add('hidden');
-            subjectsContainer.classList.add('hidden');
-            updateCarousel();
+            
+            // HIDE FORM & HEADER, SHOW SUCCESS VIEW
+            form.classList.add('hidden');
+            formHeader.classList.add('hidden');
+            formFooter.classList.add('hidden');
+            successView.classList.remove('hidden');
+
+            // CONDITIONAL SUCCESS DISPLAY BASED ON ROLE
+            if (jsonPayload.role === 'teacher') {
+              successTitle.textContent = "Application Received!";
+              successMessage.textContent = "Thank you for applying. Click below to send your Resume/CV directly to our HR team on WhatsApp to fast-track your profile review.";
+              
+              // Prepare custom WhatsApp link
+              const subjectsList = jsonPayload.subjects.join(', ') || 'selected subjects';
+              const text = `Hi HR Team! My name is ${jsonPayload.fullName}. I have submitted my application as a Teacher for Class ${jsonPayload.classGrade} (${subjectsList}). Dropping my Resume/CV here as requested!`;
+              
+              whatsappBtn.href = `https://wa.me/${HR_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+              whatsappContainer.classList.remove('hidden');
+            } else {
+              // Student View
+              successTitle.textContent = "Registration Successful!";
+              successMessage.textContent = "Thank you for registering with Sarv Shreshth Coaching Classes. Our support team will contact you shortly to confirm your preferences.";
+              whatsappContainer.classList.add('hidden');
+            }
+
           } else {
             alert('Database Error: ' + result.error);
           }
         } catch (err) {
           alert('Failed to connect to backend engine server API.');
         } finally {
-            // D. DEACTIVATE SPINNER & RESTORE BUTTON STATE
             nextBtnText.textContent = 'Submit Registration';
             nextBtn.disabled = false;
             nextBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-            // If submission failed, ensure color remains emerald
-            if (currentStep === totalSteps - 1) {
-                 nextBtn.classList.replace('bg-orange-600', 'bg-emerald-600'); 
-            }
             submitLoader.classList.add('hidden-loader');
         }
       }
